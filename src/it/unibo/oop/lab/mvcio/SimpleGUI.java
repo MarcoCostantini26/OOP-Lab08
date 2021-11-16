@@ -3,6 +3,9 @@ package it.unibo.oop.lab.mvcio;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,15 +19,6 @@ import javax.swing.JTextArea;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-    /* 
-     * 1) It has a main method that starts the graphical application
-     * 
-     * 
-     * 5) The program asks the controller to save the file if the button "Save" gets
-     * pressed.
-     * 
-     * Use "ex02.png" (in the res directory) to verify the expected aspect.
-     */
 
     /**
      * builds a new {@link SimpleGUI}.
@@ -38,6 +32,20 @@ public final class SimpleGUI {
         canvas.add(save, BorderLayout.SOUTH);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*
+         * Handlers
+         */
+        save.addActionListener(new ActionListener() {
+            private Controller file = new Controller();
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    file.write(textArea.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -58,12 +66,13 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
-
+        /*
+         * OK, ready to pull the frame onscreen
+         */
         frame.setVisible(true);
     }
 
     public static void main(final String[] args) {
-        
+        new SimpleGUI();
     }
-
 }
