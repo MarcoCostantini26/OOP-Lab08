@@ -1,9 +1,13 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * A very simple program using a graphical interface.
@@ -12,20 +16,9 @@ import javax.swing.JFrame;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-
-    /*
-     * Once the Controller is done, implement this class in such a way that:
-     * 
+    /* 
      * 1) It has a main method that starts the graphical application
      * 
-     * 2) In its constructor, sets up the whole view
-     * 
-     * 3) The graphical interface consists of a JTextArea with a button "Save" right
-     * below (see "ex02.png" for the expected result). SUGGESTION: Use a JPanel with
-     * BorderLayout
-     * 
-     * 4) By default, if the graphical interface is closed the program must exit
-     * (call setDefaultCloseOperation)
      * 
      * 5) The program asks the controller to save the file if the button "Save" gets
      * pressed.
@@ -37,6 +30,14 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
+        final JPanel canvas = new JPanel();
+        canvas.setLayout(new BorderLayout());
+        final JTextArea textArea = new JTextArea();
+        canvas.add(textArea, BorderLayout.CENTER);
+        final JButton save = new JButton("Save");
+        canvas.add(save, BorderLayout.SOUTH);
+        frame.setContentPane(canvas);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -57,6 +58,12 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+
+        frame.setVisible(true);
+    }
+
+    public static void main(final String[] args) {
+        
     }
 
 }
