@@ -10,6 +10,14 @@ import java.io.PrintStream;
  */
 public class Controller {
     private File currentFile;
+    private static final String PATH = System.getProperty("user.home")
+            + System.getProperty("file.separator")
+            + "output.txt";
+
+    public Controller() {
+        super();
+        this.currentFile = new File(PATH);
+    }
     /**
      * Method for setting a File as current file.
      * 
@@ -46,17 +54,4 @@ public class Controller {
             ps.print(input);
         }
     }
-
-    /*
-     * This class must implement a simple controller responsible of I/O access. It
-     * considers a single file at a time, and it is able to serialize objects in it.
-     * 
-     * 5) By default, the current file is "output.txt" inside the user home folder.
-     * A String representing the local user home folder can be accessed using
-     * System.getProperty("user.home"). The separator symbol (/ on *nix, \ on
-     * Windows) can be obtained as String through the method
-     * System.getProperty("file.separator"). The combined use of those methods leads
-     * to a software that runs correctly on every platform.
-     */
-
 }
