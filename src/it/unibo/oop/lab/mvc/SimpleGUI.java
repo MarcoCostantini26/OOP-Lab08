@@ -1,9 +1,15 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * A very simple program using a graphical interface.
@@ -14,15 +20,6 @@ public final class SimpleGUI {
     private final JFrame frame = new JFrame();
 
     /*
-     * Once the Controller is done, implement this class in such a way that:
-     * 
-     * 1) I has a main method that starts the graphical application
-     * 
-     * 2) In its constructor, sets up the whole view
-     * 
-     * 3) The graphical interface consists of a JTextField in the upper part of the frame, 
-     * a JTextArea in the center and two buttons below it: "Print", and "Show history". 
-     * SUGGESTION: Use a JPanel with BorderLayout
      * 
      * 4) By default, if the graphical interface is closed the program must exit
      * (call setDefaultCloseOperation)
@@ -38,6 +35,21 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
+        final JPanel canvas = new JPanel();
+        canvas.setLayout(new BorderLayout());
+        final JTextField inputText = new JTextField();
+        canvas.add(inputText, BorderLayout.NORTH);
+        final JTextArea historyTextArea = new JTextArea();
+        canvas.add(historyTextArea, BorderLayout.CENTER);
+        final JPanel canvas2 = new JPanel();
+        canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.LINE_AXIS));
+        canvas.add(canvas2, BorderLayout.SOUTH);
+        final JButton print = new JButton("Print");
+        canvas2.add(print, BorderLayout.SOUTH);
+        final JButton showHistoryButton = new JButton("Show History");
+        canvas2.add(showHistoryButton, BorderLayout.SOUTH);
+        frame.setContentPane(canvas);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /*
          * Make the frame half the resolution of the screen. This very method is
@@ -60,6 +72,14 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        /*
+         * OK, ready to pull the frame onscreen
+         */
+        frame.setVisible(true);
+    }
+
+    public static void main(final String [] args) {
+        new SimpleGUI();
     }
 
 }
