@@ -5,12 +5,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -73,6 +69,7 @@ public final class SimpleGUIWithFileChooser {
                         break;
                     default:
                         JOptionPane.showMessageDialog(frame, "Error!");
+                        break;
                 }
             }
         });
@@ -94,14 +91,6 @@ public final class SimpleGUIWithFileChooser {
          */
         frame.setVisible(true);
     }
-
-    /*
-     * 
-     * 4) When in the controller a new File is set, also the graphical interface
-     * must reflect such change. Suggestion: do not force the controller to
-     * update the UI: in this example the UI knows when should be updated, so
-     * try to keep things separated.
-     */
 
     public static void main(final String[] args) {
         new SimpleGUIWithFileChooser();
