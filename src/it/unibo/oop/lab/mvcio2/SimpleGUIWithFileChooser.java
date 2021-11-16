@@ -5,10 +5,15 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,6 +26,7 @@ import it.unibo.oop.lab.mvcio.Controller;
  */
 public final class SimpleGUIWithFileChooser {
     private final JFrame frame = new JFrame();
+    private Controller file = new Controller();
 
     public SimpleGUIWithFileChooser() {
         final JPanel canvas = new JPanel();
@@ -33,6 +39,7 @@ public final class SimpleGUIWithFileChooser {
         final JButton save = new JButton("Save");
         canvas.add(save, BorderLayout.SOUTH);
         final JTextField browseText = new JTextField();
+        browseText.setEditable(false);
         canvas2.add(browseText, BorderLayout.CENTER);
         final JButton browseButton = new JButton("Browse...");
         canvas2.add(browseButton, BorderLayout.LINE_END);
@@ -42,13 +49,30 @@ public final class SimpleGUIWithFileChooser {
          * Handlers
          */
         save.addActionListener(new ActionListener() {
-            private Controller file = new Controller();
             @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
-                    file.write(textArea.getText());
+                    getFile().write(textArea.getText());
                 } catch (IOException e1) {
                     e1.printStackTrace();
+                }
+            }
+        });
+        browseButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final JFileChooser fileChooser = new JFileChooser();
+                final int returnValue = fileChooser.showSaveDialog(null);
+                switch (returnValue) {
+                    case JFileChooser.APPROVE_OPTION:
+                        browseText.setText(fileChooser.getSelectedFile().toString());
+                        getFile().setCurrentFile(fileChooser.getSelectedFile());
+                        break;
+                    case JFileChooser.CANCEL_OPTION:
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(frame, "Error!");
                 }
             }
         });
@@ -73,23 +97,21 @@ public final class SimpleGUIWithFileChooser {
 
     /*
      * 
-     * 2) The JTextField should be non modifiable. And, should display the
-     * current selected file.
-     * 
-     * 3) On press, the button should open a JFileChooser. The program should
-     * use the method showSaveDialog() to display the file chooser, and if the
-     * result is equal to JFileChooser.APPROVE_OPTION the program should set as
-     * new file in the Controller the file chosen. If CANCEL_OPTION is returned,
-     * then the program should do nothing. Otherwise, a message dialog should be
-     * shown telling the user that an error has occurred (use
-     * JOptionPane.showMessageDialog()).
-     * 
      * 4) When in the controller a new File is set, also the graphical interface
      * must reflect such change. Suggestion: do not force the controller to
      * update the UI: in this example the UI knows when should be updated, so
      * try to keep things separated.
      */
+
     public static void main(final String[] args) {
         new SimpleGUIWithFileChooser();
+    }
+
+    public Controller getFile() {
+        return file;
+    }
+
+    public void setFile(final Controller file) {
+        this.file = file;
     }
 }
