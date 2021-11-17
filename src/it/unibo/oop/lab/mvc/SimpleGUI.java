@@ -3,6 +3,8 @@ package it.unibo.oop.lab.mvc;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,18 +20,7 @@ import javax.swing.JTextField;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-
-    /*
-     * 
-     * 4) By default, if the graphical interface is closed the program must exit
-     * (call setDefaultCloseOperation)
-     * 
-     * 5) The behavior of the program is that, if "Print" is pressed, the
-     * controller is asked to show the string contained in the text field on standard output. 
-     * If "show history" is pressed instead, the GUI must show all the prints that
-     * have been done to this moment in the text area.
-     * 
-     */
+    private final Controller controller = new ControllerImpl(); 
 
     /**
      * builds a new {@link SimpleGUI}.
@@ -40,6 +31,7 @@ public final class SimpleGUI {
         final JTextField inputText = new JTextField();
         canvas.add(inputText, BorderLayout.NORTH);
         final JTextArea historyTextArea = new JTextArea();
+        historyTextArea.setEditable(false);
         canvas.add(historyTextArea, BorderLayout.CENTER);
         final JPanel canvas2 = new JPanel();
         canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.LINE_AXIS));
@@ -50,7 +42,23 @@ public final class SimpleGUI {
         canvas2.add(showHistoryButton, BorderLayout.SOUTH);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*
+         * Handlers
+         */
+        print.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                controller.setNextStringToPrint(inputText.getText());
+                controller.printCurrentString();
+            }
+        });
+        showHistoryButton.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                historyTextArea.setText(controller.getHistoryList().toString());
+            }
+        });
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
