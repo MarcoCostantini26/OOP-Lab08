@@ -2,6 +2,8 @@ package it.unibo.oop.lab.advanced;
 
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  */
@@ -52,5 +54,4 @@ public final class DrawNumberImpl implements DrawNumber {
         }
         return DrawResult.YOU_WON;
     }
-
 }
