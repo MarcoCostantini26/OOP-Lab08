@@ -20,16 +20,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * 
      */
     public DrawNumberApp() throws IOException {
-        final InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
-        String line;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            line = br.readLine();
-            while (line != null) {
-                System.out.println(line);
-                line = br.readLine();
-            }
-
-        }
+        this.setThreeCostants();
         this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
@@ -56,6 +47,18 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     @Override
     public void quit() {
         System.exit(0);
+    }
+ 
+    private void setThreeCostants() throws IOException {
+        final InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
+        String line;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+            line = br.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = br.readLine();
+            }
+        }
     }
 
     /**
