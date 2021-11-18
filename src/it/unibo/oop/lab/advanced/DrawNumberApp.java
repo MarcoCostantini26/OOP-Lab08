@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
+    private static final int LENGTH_LINE_SPLIT = 2;
     private int min;
     private int max;
     private int attemps;
@@ -64,15 +65,17 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
             line = br.readLine();
             while (line != null) {
                 final String [] lineSplit = line.split(":");
-                final int value = Integer.parseInt(lineSplit[1]);
-                if (lineSplit[0].contains("maximum")) {
-                    this.setMax(value);
-                }
-                if (lineSplit[0].contains("minimum")) {
-                    this.setMin(value);
-                }
-                if (lineSplit[0].contains("attemps")) {
-                    this.setAttemps(value);
+                final int value = Integer.parseInt(lineSplit[1].trim());
+                if (lineSplit.length == LENGTH_LINE_SPLIT) {
+                    if (lineSplit[0].contains("maximum")) {
+                        this.setMax(value);
+                    }
+                    if (lineSplit[0].contains("minimum")) {
+                        this.setMin(value);
+                    }
+                    if (lineSplit[0].contains("attempts")) {
+                        this.setAttemps(value);
+                    }
                 }
                 line = br.readLine();
             }
