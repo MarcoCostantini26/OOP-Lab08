@@ -4,14 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
-    private static final int MIN = 0;
-    private static final int MAX = 100;
-    private static final int ATTEMPTS = 10;
+    private int min;
+    private int max;
+    private int attemps;
     private final DrawNumber model;
     private final DrawNumberView view;
 
@@ -20,8 +23,8 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * 
      */
     public DrawNumberApp() throws IOException {
-        this.setThreeCostants();
-        this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        this.setThreeVariable();
+        this.model = new DrawNumberImpl(min, max, attemps);
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
         this.view.start();
@@ -49,16 +52,55 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         System.exit(0);
     }
  
-    private void setThreeCostants() throws IOException {
+    /**
+     * Method that set the three variables with value in "config.yml".
+     * @throws IOException
+     */
+    private void setThreeVariable() throws IOException {
         final InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
         String line;
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             line = br.readLine();
             while (line != null) {
-                System.out.println(line);
+                final String [] lineSplit = line.split(":");
+                final int value = Integer.parseInt(lineSplit[1]);
+                if (lineSplit[0].contains("maximum")) {
+                    this.setMax(value);
+                }
+                if (lineSplit[0].contains("minimum")) {
+                    this.setMin(value);
+                }
+                if (lineSplit[0].contains("attemps")) {
+                    this.setAttemps(value);
+                }
                 line = br.readLine();
             }
         }
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(final int min) {
+        this.min = min;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(final int max) {
+        this.max = max;
+    }
+
+    public int getAttemps() {
+        return attemps;
+    }
+
+    public void setAttemps(final int attemps) {
+        this.attemps = attemps;
     }
 
     /**
