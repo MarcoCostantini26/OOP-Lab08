@@ -57,7 +57,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * Method that set the three variables with value in "config.yml".
      * @throws IOException
      */
-    private void setThreeVariable() throws IOException {
+    private void setThreeVariable() {
         final InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
         String line;
 
@@ -79,39 +79,58 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
                 }
                 line = br.readLine();
             }
+        } catch (IOException e) {
+            System.out.println(e); 
         }
     }
-
+    /**
+     * Get min.
+     * @return min
+     */
     public int getMin() {
         return min;
     }
-
+    /**
+     * Set min.
+     * @param min value to set min
+     */
     public void setMin(final int min) {
         this.min = min;
     }
-
+    /**
+     * Get max.
+     * @return max
+     */
     public int getMax() {
         return max;
     }
-
+    /**
+     * Set max.
+     * @param max value to set max
+     */
     public void setMax(final int max) {
         this.max = max;
     }
-
+    /**
+     * Get Attemps.
+     * @return Attemps
+     */
     public int getAttemps() {
         return attemps;
     }
-
-    public void setAttemps(final int attemps) {
-        this.attemps = attemps;
+    /**
+     * Set attemps.
+     * @param attempts value to set attemps
+     */
+    public void setAttemps(final int attempts) {
+        this.attemps = attempts;
     }
 
     /**
      * @param args
      *            ignored
-     * @throws IOException 
      */
-    public static void main(final String... args) throws IOException {
+    public static void main(final String... args) {
         new DrawNumberApp();
     }
 
