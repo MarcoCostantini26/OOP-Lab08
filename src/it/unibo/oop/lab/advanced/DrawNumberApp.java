@@ -129,8 +129,9 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     /**
      * @param args
      *            ignored
+     * @throws IOException 
      */
-    public static void main(final String... args) {
+    public static void main(final String... args) throws IOException {
         new DrawNumberApp();
     }
 
