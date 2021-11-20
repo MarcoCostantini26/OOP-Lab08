@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 /**
- * Class that writes the match log on file.
+ * View Class that writes the match log on file.
  *
  */
 public final class WriteMatchView implements DrawNumberView {
