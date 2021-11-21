@@ -14,7 +14,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
 
     private static final int LENGTH_LINE_SPLIT = 2;
     private static final String CONFIG_FILE = "config.yml";
-    private static final String LOG_FILE = "output.log";
+    private static final String LOG_FILE = "outputResult.txt";
     private int min;
     private int max;
     private int attempts;
@@ -144,8 +144,8 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      */
     public static void main(final String... args) throws IOException {
         final List<DrawNumberView> views = new ArrayList<>();
-        views.add(new WriteMatchView(LOG_FILE));
         views.add(new WriteStdout());
+        views.add(new WriteMatchView(LOG_FILE));
         views.add(new DrawNumberViewImpl());
         new DrawNumberApp(views);
     }

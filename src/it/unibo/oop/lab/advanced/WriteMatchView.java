@@ -2,6 +2,7 @@ package it.unibo.oop.lab.advanced;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 /**
  * View Class that writes the match log on file.
@@ -17,7 +18,7 @@ public final class WriteMatchView implements DrawNumberView {
      */
     public WriteMatchView(final String path) throws FileNotFoundException {
         super();
-        this.out = new PrintStream(new File(path));
+        this.out = new PrintStream(new FileOutputStream(new File(path)));
     }
 
     @Override
