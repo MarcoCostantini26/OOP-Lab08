@@ -13,33 +13,44 @@ import java.util.StringTokenizer;
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
     private static final int LENGTH_LINE_SPLIT = 2;
+    private static final String CONFIG_FILE = "config.yml";
+    private static final String LOG_FILE = "output.log";
     private int min;
     private int max;
-    private int attemps;
+    private int attempts;
     private final DrawNumber model;
-    private final DrawNumberView view;
+    private final List<DrawNumberView> views;
 
     /**
-     * @throws IOException 
      * 
+     * @param views List of views 
+     * @throws IOException
      */
-    public DrawNumberApp() throws IOException {
+    public DrawNumberApp(final List<DrawNumberView> views) throws IOException {
         this.setThreeVariable();
-        this.model = new DrawNumberImpl(min, max, attemps);
-        this.view = new DrawNumberViewImpl();
-        this.view.setObserver(this);
-        this.view.start();
+        this.model = new DrawNumberImpl(min, max, attempts);
+        this.views = new ArrayList<>(views);
+        for (final DrawNumberView view : this.views) {
+            view.setObserver(this);
+            view.start();
+        }
     }
 
     @Override
     public void newAttempt(final int n) {
         try {
             final DrawResult result = model.attempt(n);
-            this.view.result(result);
+            for (final DrawNumberView view : this.views) {
+                view.result(result);
+            }
         } catch (IllegalArgumentException e) {
-            this.view.numberIncorrect();
+            for (final DrawNumberView view : this.views) {
+                view.numberIncorrect();
+            }
         } catch (AttemptsLimitReachedException e) {
-            view.limitsReached();
+            for (final DrawNumberView view : this.views) {
+                view.limitsReached();
+            }
         }
     }
 
@@ -58,7 +69,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @throws IOException
      */
     private void setThreeVariable() {
-        final InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
+        final InputStream in = ClassLoader.getSystemResourceAsStream(CONFIG_FILE);
         String line;
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
@@ -112,18 +123,18 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         this.max = max;
     }
     /**
-     * Get Attemps.
-     * @return Attemps
+     * Get Attempts.
+     * @return Attempts
      */
     public int getAttemps() {
-        return attemps;
+        return attempts;
     }
     /**
-     * Set attemps.
-     * @param attempts value to set attemps
+     * Set attempts.
+     * @param attempts value to set attempts
      */
     public void setAttemps(final int attempts) {
-        this.attemps = attempts;
+        this.attempts = attempts;
     }
 
     /**
@@ -132,7 +143,11 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @throws IOException 
      */
     public static void main(final String... args) throws IOException {
-        new DrawNumberApp();
+        final List<DrawNumberView> views = new ArrayList<>();
+        views.add(new WriteMatchView(LOG_FILE));
+        views.add(new WriteStdout());
+        views.add(new DrawNumberViewImpl());
+        new DrawNumberApp(views);
     }
 
 }
